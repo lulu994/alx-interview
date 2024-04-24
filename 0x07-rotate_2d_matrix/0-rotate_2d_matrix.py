@@ -1,25 +1,26 @@
-#!/usr/bin/python3
-"""2D matrix rotation module.
-"""
-
-
 def rotate_2d_matrix(matrix):
-    """Rotates an m by n 2D matrix in place.
-    """
-    n = len(matrix)
-    # Transpose the matrix
-    for i in range(n):
-        for j in range(i, n):
-            matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
-    # Reverse each row
-    for i in range(n):
-        matrix[i].reverse()
-
-# Test the function
-if __name__ == "__main__":
-    matrix = [[1, 2, 3],
-              [4, 5, 6],
-              [7, 8, 9]]
-
-    rotate_2d_matrix(matrix)
-    print(matrix)
+    if type(matrix) != list:
+        print("Input is not a list")
+        return
+    if len(matrix) <= 0:
+        print("Matrix is empty")
+        return
+    if not all(map(lambda x: type(x) == list, matrix)):
+        print("Matrix contains non-list elements")
+        return
+    rows = len(matrix)
+    cols = len(matrix[0])
+    if not all(map(lambda x: len(x) == cols, matrix)):
+        print("Matrix rows have inconsistent lengths")
+        return
+    c, r = 0, rows - 1
+    for i in range(cols * rows):
+        if i % rows == 0:
+            matrix.append([])
+        if r == -1:
+            r = rows - 1
+            c += 1
+        matrix[-1].append(matrix[r][c])
+        if c == cols - 1 and r >= -1:
+            matrix.pop(r)
+        r -= 1
